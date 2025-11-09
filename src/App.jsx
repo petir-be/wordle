@@ -1,5 +1,4 @@
 import { useEffect, useState, useRef } from "react";
-import Line from "./components/Line";
 
 const API_URL = 'api/api/fe/wordle-words';
 
@@ -7,6 +6,7 @@ function App() {
   const [keypressed, setKeyPressed] = useState('');
   const [word, setWord] = useState(null);
   const fetchedRef = useRef(false);
+  const guesses = 6;
    
 useEffect(() =>{
   if(fetchedRef.current) return;
@@ -51,11 +51,39 @@ useEffect(() =>{
   return (
     <>
     <div className="text-6xl underline text-white min-h-dvh flex justify-center items-center">
-        {keypressed}
-        {word}
+        {guesses > 0 ? (
+          <div className="flex flex-col gap-2">
+            {Array.from({ length: guesses }).map((_, index) => (
+              <Line key={index} word={word} keypressed={keypressed} />
+            ))}
+          </div>
+        ) : (
+          <div>Game Over! The word was: {word}</div>
+        )}
     </div>
     </>
   )
+}
+function Line(){
+  return <>
+    <div className="flex gap-2">
+      <Tile />
+      <Tile />
+      <Tile />
+      <Tile />
+      <Tile />
+    </div>
+  </>;
+}
+
+
+function Tile(){
+    return <>
+    <div className="w-15 h-15 border-2 border-gray-500">
+
+        
+    </div>
+    </>
 }
 
 export default App
